@@ -1,18 +1,7 @@
 
 import React from 'react';
-
-export interface Car {
-  id: number;
-  make: string;
-  model: string;
-  year: number;
-  price: number;
-  mileage: number;
-  fuelType: string;
-  transmission: string;
-  image: string;
-  condition: string;
-}
+import { Car } from '../types/car';
+import { Fuel, Calendar, Settings, ArrowRight } from 'lucide-react';
 
 interface CarCardProps {
   car: Car;
@@ -21,20 +10,16 @@ interface CarCardProps {
 
 const CarCard: React.FC<CarCardProps> = ({ car, onCarClick }) => {
   const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('en-GB', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'GBP',
       minimumFractionDigits: 0,
     }).format(price);
   };
 
-  const formatMileage = (mileage: number) => {
-    return new Intl.NumberFormat('en-US').format(mileage);
-  };
-
   return (
     <div 
-      className="bg-slate-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer border border-slate-700"
+      className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer group"
       onClick={() => onCarClick(car)}
     >
       {/* Image */}
@@ -42,16 +27,16 @@ const CarCard: React.FC<CarCardProps> = ({ car, onCarClick }) => {
         <img
           src={car.image}
           alt={`${car.year} ${car.make} ${car.model}`}
-          className="w-full h-48 object-cover transition-transform duration-300 hover:scale-110"
+          className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
         />
         <div className="absolute top-4 left-4">
-          <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+          <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
             {car.condition}
           </span>
         </div>
         <div className="absolute top-4 right-4">
-          <span className="bg-black/50 text-white px-3 py-1 rounded-full text-sm backdrop-blur-sm">
-            {car.year}
+          <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+            {car.category}
           </span>
         </div>
       </div>
@@ -59,37 +44,40 @@ const CarCard: React.FC<CarCardProps> = ({ car, onCarClick }) => {
       {/* Content */}
       <div className="p-6">
         <div className="mb-4">
-          <h3 className="text-xl font-bold text-white mb-1">
+          <h3 className="text-xl font-bold text-gray-800 mb-2">
             {car.year} {car.make} {car.model}
           </h3>
-          <p className="text-2xl font-bold text-blue-400 mb-2">
-            {formatPrice(car.price)}
+          <div className="flex items-baseline space-x-2">
+            <span className="text-3xl font-bold text-blue-600">
+              {formatPrice(car.monthlyPrice)}
+            </span>
+            <span className="text-gray-500 text-sm">/month</span>
+          </div>
+          <p className="text-sm text-gray-500 mt-1">
+            Initial payment: {formatPrice(car.initialPayment)}
           </p>
         </div>
 
         {/* Details */}
-        <div className="grid grid-cols-2 gap-4 text-sm">
-          <div className="flex flex-col">
-            <span className="text-slate-400">Mileage</span>
-            <span className="text-white font-semibold">{formatMileage(car.mileage)} miles</span>
+        <div className="grid grid-cols-3 gap-4 text-sm mb-6">
+          <div className="flex flex-col items-center text-center">
+            <Fuel className="w-5 h-5 text-gray-400 mb-1" />
+            <span className="text-gray-600 font-medium">{car.fuelType}</span>
           </div>
-          <div className="flex flex-col">
-            <span className="text-slate-400">Fuel Type</span>
-            <span className="text-white font-semibold">{car.fuelType}</span>
+          <div className="flex flex-col items-center text-center">
+            <Settings className="w-5 h-5 text-gray-400 mb-1" />
+            <span className="text-gray-600 font-medium">{car.transmission}</span>
           </div>
-          <div className="flex flex-col">
-            <span className="text-slate-400">Transmission</span>
-            <span className="text-white font-semibold">{car.transmission}</span>
-          </div>
-          <div className="flex flex-col">
-            <span className="text-slate-400">Condition</span>
-            <span className="text-white font-semibold">{car.condition}</span>
+          <div className="flex flex-col items-center text-center">
+            <Calendar className="w-5 h-5 text-gray-400 mb-1" />
+            <span className="text-gray-600 font-medium">{car.term}m</span>
           </div>
         </div>
 
         {/* Action Button */}
-        <button className="w-full mt-6 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
-          View Details
+        <button className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white py-3 rounded-lg font-semibold transition-all duration-300 transform group-hover:scale-105 flex items-center justify-center">
+          View Deal
+          <ArrowRight className="ml-2 w-5 h-5" />
         </button>
       </div>
     </div>

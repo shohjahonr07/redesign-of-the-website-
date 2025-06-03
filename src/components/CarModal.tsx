@@ -1,172 +1,129 @@
 
 import React from 'react';
-import { X, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Car } from './CarCard';
+import { Car } from '../types/car';
+import { X, Fuel, Calendar, Settings, MapPin, Phone, Mail } from 'lucide-react';
 
 interface CarModalProps {
-  car: Car | null;
-  isOpen: boolean;
+  car: Car;
   onClose: () => void;
 }
 
-const CarModal: React.FC<CarModalProps> = ({ car, isOpen, onClose }) => {
-  if (!isOpen || !car) return null;
-
+const CarModal: React.FC<CarModalProps> = ({ car, onClose }) => {
   const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('en-GB', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'GBP',
       minimumFractionDigits: 0,
     }).format(price);
   };
 
-  const formatMileage = (mileage: number) => {
-    return new Intl.NumberFormat('en-US').format(mileage);
-  };
-
-  // Sample additional images for the gallery
-  const galleryImages = [
-    car.image,
-    "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&h=400&fit=crop",
-    "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&h=400&fit=crop",
-    "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=600&h=400&fit=crop",
-  ];
-
-  const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
-
-  const nextImage = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % galleryImages.length);
-  };
-
-  const prevImage = () => {
-    setCurrentImageIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
-  };
-
   return (
-    <div className="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-slate-900 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden border border-slate-700">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+      <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-slate-700">
-          <h2 className="text-2xl font-bold text-white">
-            {car.year} {car.make} {car.model}
-          </h2>
+        <div className="relative">
+          <img
+            src={car.image}
+            alt={`${car.year} ${car.make} ${car.model}`}
+            className="w-full h-64 object-cover rounded-t-2xl"
+          />
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-white transition-colors p-2"
+            className="absolute top-4 right-4 bg-white rounded-full p-2 hover:bg-gray-100 transition-colors"
           >
             <X className="w-6 h-6" />
           </button>
+          <div className="absolute bottom-4 left-4">
+            <span className="bg-green-500 text-white px-4 py-2 rounded-full font-semibold">
+              {car.condition}
+            </span>
+          </div>
         </div>
 
-        <div className="overflow-y-auto max-h-[calc(90vh-80px)]">
-          <div className="grid lg:grid-cols-2 gap-8 p-6">
-            {/* Image Gallery */}
-            <div className="space-y-4">
-              <div className="relative">
-                <img
-                  src={galleryImages[currentImageIndex]}
-                  alt={`${car.make} ${car.model}`}
-                  className="w-full h-80 object-cover rounded-xl"
-                />
-                <button
-                  onClick={prevImage}
-                  className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-                <button
-                  onClick={nextImage}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </button>
+        <div className="p-8">
+          {/* Title and Price */}
+          <div className="mb-8">
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">
+              {car.year} {car.make} {car.model}
+            </h2>
+            <div className="flex items-baseline space-x-3 mb-4">
+              <span className="text-4xl font-bold text-blue-600">
+                {formatPrice(car.monthlyPrice)}
+              </span>
+              <span className="text-gray-500">/month</span>
+            </div>
+            <div className="text-gray-600">
+              <p>Initial payment: <span className="font-semibold">{formatPrice(car.initialPayment)}</span></p>
+              <p>Contract length: <span className="font-semibold">{car.term} months</span></p>
+            </div>
+          </div>
+
+          {/* Specifications */}
+          <div className="grid md:grid-cols-2 gap-8 mb-8">
+            <div>
+              <h3 className="text-xl font-bold text-gray-800 mb-4">Specifications</h3>
+              <div className="space-y-3">
+                <div className="flex items-center">
+                  <Fuel className="w-5 h-5 text-gray-400 mr-3" />
+                  <span className="text-gray-600">Fuel Type:</span>
+                  <span className="ml-auto font-semibold">{car.fuelType}</span>
+                </div>
+                <div className="flex items-center">
+                  <Settings className="w-5 h-5 text-gray-400 mr-3" />
+                  <span className="text-gray-600">Transmission:</span>
+                  <span className="ml-auto font-semibold">{car.transmission}</span>
+                </div>
+                <div className="flex items-center">
+                  <Calendar className="w-5 h-5 text-gray-400 mr-3" />
+                  <span className="text-gray-600">Body Type:</span>
+                  <span className="ml-auto font-semibold">{car.bodyType}</span>
+                </div>
+                {car.mpg > 0 && (
+                  <div className="flex items-center">
+                    <span className="text-gray-600">MPG:</span>
+                    <span className="ml-auto font-semibold">{car.mpg}</span>
+                  </div>
+                )}
+                <div className="flex items-center">
+                  <span className="text-gray-600">CO2 Emissions:</span>
+                  <span className="ml-auto font-semibold">{car.co2}g/km</span>
+                </div>
               </div>
-              
-              {/* Thumbnail Gallery */}
-              <div className="flex gap-2 overflow-x-auto">
-                {galleryImages.map((image, index) => (
-                  <img
-                    key={index}
-                    src={image}
-                    alt={`View ${index + 1}`}
-                    className={`w-20 h-16 object-cover rounded cursor-pointer border-2 transition-all ${
-                      index === currentImageIndex 
-                        ? 'border-blue-500' 
-                        : 'border-slate-600 hover:border-slate-500'
-                    }`}
-                    onClick={() => setCurrentImageIndex(index)}
-                  />
+            </div>
+
+            <div>
+              <h3 className="text-xl font-bold text-gray-800 mb-4">Features</h3>
+              <div className="space-y-2">
+                {car.features.map((feature, index) => (
+                  <div key={index} className="flex items-center">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                    <span className="text-gray-600">{feature}</span>
+                  </div>
                 ))}
               </div>
             </div>
+          </div>
 
-            {/* Car Details */}
-            <div className="space-y-6">
-              <div>
-                <div className="text-3xl font-bold text-blue-400 mb-2">
-                  {formatPrice(car.price)}
-                </div>
-                <div className="text-slate-300">
-                  Market value estimate: {formatPrice(car.price + 2000)}
-                </div>
-              </div>
+          {/* Description */}
+          <div className="mb-8">
+            <h3 className="text-xl font-bold text-gray-800 mb-4">Description</h3>
+            <p className="text-gray-600 leading-relaxed">{car.description}</p>
+          </div>
 
-              {/* Key Details */}
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-slate-800 p-4 rounded-lg">
-                  <div className="text-slate-400 text-sm">Mileage</div>
-                  <div className="text-white font-semibold">{formatMileage(car.mileage)} miles</div>
-                </div>
-                <div className="bg-slate-800 p-4 rounded-lg">
-                  <div className="text-slate-400 text-sm">Fuel Type</div>
-                  <div className="text-white font-semibold">{car.fuelType}</div>
-                </div>
-                <div className="bg-slate-800 p-4 rounded-lg">
-                  <div className="text-slate-400 text-sm">Transmission</div>
-                  <div className="text-white font-semibold">{car.transmission}</div>
-                </div>
-                <div className="bg-slate-800 p-4 rounded-lg">
-                  <div className="text-slate-400 text-sm">Condition</div>
-                  <div className="text-white font-semibold">{car.condition}</div>
-                </div>
-              </div>
-
-              {/* Features */}
-              <div>
-                <h3 className="text-lg font-semibold text-white mb-3">Key Features</h3>
-                <div className="grid grid-cols-2 gap-2 text-sm">
-                  <div className="text-slate-300">• Air Conditioning</div>
-                  <div className="text-slate-300">• Power Windows</div>
-                  <div className="text-slate-300">• Bluetooth</div>
-                  <div className="text-slate-300">• Backup Camera</div>
-                  <div className="text-slate-300">• Cruise Control</div>
-                  <div className="text-slate-300">• Alloy Wheels</div>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="space-y-3">
-                <button className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-3 rounded-lg font-semibold transition-all duration-300">
-                  Schedule Test Drive
-                </button>
-                <button className="w-full border border-slate-600 text-white py-3 rounded-lg font-semibold hover:bg-slate-800 transition-all duration-300">
-                  Get Financing
-                </button>
-                <button className="w-full bg-slate-800 text-white py-3 rounded-lg font-semibold hover:bg-slate-700 transition-all duration-300">
-                  Save to Favorites
-                </button>
-              </div>
-
-              {/* Contact Info */}
-              <div className="bg-slate-800 p-4 rounded-lg">
-                <h4 className="font-semibold text-white mb-2">Contact Dealer</h4>
-                <div className="text-slate-300 text-sm space-y-1">
-                  <div>📞 (555) 123-4567</div>
-                  <div>📍 123 Auto Lane, Car City, CC 12345</div>
-                  <div>🕒 Mon-Sat: 9AM-8PM, Sun: 11AM-6PM</div>
-                </div>
-              </div>
-            </div>
+          {/* Action Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4">
+            <button className="flex-1 bg-orange-500 hover:bg-orange-600 text-white py-4 rounded-lg font-semibold transition-colors flex items-center justify-center">
+              <Phone className="w-5 h-5 mr-2" />
+              Call for Quote
+            </button>
+            <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-lg font-semibold transition-colors flex items-center justify-center">
+              <Mail className="w-5 h-5 mr-2" />
+              Email Enquiry
+            </button>
+            <button className="flex-1 border-2 border-gray-300 hover:border-blue-500 text-gray-700 hover:text-blue-600 py-4 rounded-lg font-semibold transition-colors flex items-center justify-center">
+              <MapPin className="w-5 h-5 mr-2" />
+              Find Dealer
+            </button>
           </div>
         </div>
       </div>
