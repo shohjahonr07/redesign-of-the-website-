@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp, TrendingUp } from 'lucide-react';
 
@@ -6,18 +5,18 @@ const BrandGrid = () => {
   const [showAll, setShowAll] = useState(false);
 
   const brands = [
-    { name: 'BMW', logo: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=100&h=60&fit=crop', deals: 45, trending: true },
-    { name: 'Mercedes', logo: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=100&h=60&fit=crop', deals: 38, trending: false },
-    { name: 'Audi', logo: 'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=100&h=60&fit=crop', deals: 52, trending: true },
-    { name: 'Tesla', logo: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?w=100&h=60&fit=crop', deals: 23, trending: true },
-    { name: 'Toyota', logo: 'https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=100&h=60&fit=crop', deals: 67, trending: false },
-    { name: 'Honda', logo: 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=100&h=60&fit=crop', deals: 43, trending: false },
-    { name: 'Ford', logo: 'https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=100&h=60&fit=crop', deals: 56, trending: false },
-    { name: 'Volkswagen', logo: 'https://images.unsplash.com/photo-1502877338535-766e1452684a?w=100&h=60&fit=crop', deals: 41, trending: false },
+    { name: 'BMW', logo: 'https://images.unsplash.com/photo-1617886903355-9354bb57751f?w=100&h=60&fit=crop', deals: 45, trending: true },
+    { name: 'Mercedes', logo: 'https://images.unsplash.com/photo-1606016159991-5e4c63b6d2ad?w=100&h=60&fit=crop', deals: 38, trending: false },
+    { name: 'Audi', logo: 'https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=100&h=60&fit=crop', deals: 52, trending: true },
+    { name: 'Tesla', logo: 'https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=100&h=60&fit=crop', deals: 23, trending: true },
+    { name: 'Toyota', logo: 'https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=100&h=60&fit=crop', deals: 67, trending: false },
+    { name: 'Honda', logo: 'https://images.unsplash.com/photo-1619767886558-efdc259cde1a?w=100&h=60&fit=crop', deals: 43, trending: false },
+    { name: 'Ford', logo: 'https://images.unsplash.com/photo-1612825173281-9a193378527e?w=100&h=60&fit=crop', deals: 56, trending: false },
+    { name: 'Volkswagen', logo: 'https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=100&h=60&fit=crop', deals: 41, trending: false },
     { name: 'Nissan', logo: 'https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=100&h=60&fit=crop', deals: 34, trending: false },
-    { name: 'Hyundai', logo: 'https://images.unsplash.com/photo-1551830820-330a71b99659?w=100&h=60&fit=crop', deals: 29, trending: false },
-    { name: 'Kia', logo: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=100&h=60&fit=crop', deals: 31, trending: false },
-    { name: 'Jaguar', logo: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=100&h=60&fit=crop', deals: 18, trending: false }
+    { name: 'Hyundai', logo: 'https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=100&h=60&fit=crop', deals: 29, trending: false },
+    { name: 'Kia', logo: 'https://images.unsplash.com/photo-1614200187524-dc4b892acf16?w=100&h=60&fit=crop', deals: 31, trending: false },
+    { name: 'Jaguar', logo: 'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=100&h=60&fit=crop', deals: 18, trending: false }
   ];
 
   const displayedBrands = showAll ? brands : brands.slice(0, 8);
